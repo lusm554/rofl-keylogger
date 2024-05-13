@@ -42,16 +42,33 @@ exit_msg = '''
 logger.info(hello_msg)
 
 def on_press(key):
+  '''
+  Обработчик события "нажатие клавиши".
+
+  Arguments
+  ---------
+    key: pynput.keyboard.Key - нажатая кнопка
+  '''
   try:
     logger.info(f'{key.char}')
   except AttributeError:
     logger.info(f'{key}')
 
 def on_release(key):
+  '''
+  Обработчик события "поднятие клавиши".
+
+  Arguments
+  ---------
+    key: pynput.keyboard.Key - отжатая кнопка
+  '''
   if key == keyboard.Key.esc:
     return False
 
 def main():
+  '''
+  Основная функция, запускает обработчик событий манипуляций с клавиатурой.
+  '''
   try:
     with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
       listener.join()
