@@ -1,13 +1,21 @@
 from pynput import keyboard
+import logging
+
+logging.basicConfig(
+  level=logging.INFO,
+  format='[%(asctime)s] %(levelname)s [%(name)s] %(message)s',
+  datefmt='%Y-%m-%d %H:%M:%S %Z',
+)
+logger = logging.getLogger(__name__)
 
 def on_press(key):
   try:
-    print('alphanumeric key {0} pressed'.format(key.char))
+    logger.info(f'Key pressed {key.char!r}')
   except AttributeError:
-    print('special key {0} pressed'.format(key))
+    logger.info(f'Key pressed {key!r}')
 
 def on_release(key):
-  print('{0} released'.format(key))
+  logger.info(f'Key {key} released')
   if key == keyboard.Key.esc:
     # Stop listener
     return False
