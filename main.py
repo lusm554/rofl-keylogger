@@ -3,17 +3,21 @@ import logging
 import zoneinfo # added since python 3.9
 import datetime
 
-logging.Formatter.converter = lambda *args: datetime.datetime.now(tz=zoneinfo.ZoneInfo("Europe/Moscow")).timetuple()
-logging.basicConfig(
-  level=logging.INFO,
-  format='[%(asctime)s] %(levelname)s [%(name)s] %(message)s',
-  datefmt='%Y-%m-%d %H:%M:%S %Z',
-  handlers=[
+def set_logging(silent_mode=False):
+  global logger
+  logging.Formatter.converter = lambda *args: datetime.datetime.now(tz=zoneinfo.ZoneInfo("Europe/Moscow")).timetuple()
+  handlers = [
     logging.FileHandler(datetime.datetime.now().strftime('logs/log_%Y-%m-%d_%H-%M-%S.log')),
-    logging.StreamHandler(),
   ]
-)
-logger = logging.getLogger(__name__)
+  if not silent_mode:
+    handlers.append(logging.StreamHandler())
+  logging.basicConfig(
+    level=logging.INFO,
+    format='[%(asctime)s] %(levelname)s [%(name)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S %Z',
+    handlers=handlers
+  )
+  logger = logging.getLogger(__name__)
 
 def on_press(key):
   try:
@@ -36,4 +40,5 @@ def main():
     exit()
 
 if __name__ == '__main__':
+  set_logging(silent_mode=False)
   main()
